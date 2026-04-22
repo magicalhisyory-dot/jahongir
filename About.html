@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<title>Elyorjon Market </title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body {
+  background: #f4fff4;
+  font-family: Arial;
+}
+
+/* NAVBAR */
+.navbar {
+  background: #14532d;
+  padding: 18px;
+}
+
+.navbar-brand {
+  font-size: 28px;
+  color: #00ff99 !important;
+  font-weight: bold;
+}
+
+.nav-link {
+  color: white !important;
+  margin-left: 10px;
+}
+
+/* HERO */
+.hero {
+  height: 260px;
+  background: url('https://images.unsplash.com/photo-1542838132-92c53300491e') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero h1 {
+  background: rgba(0,0,0,0.5);
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+/* CARD */
+.product-card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(0,200,100,0.3);
+}
+
+.product-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+/* BUTTON */
+.buy-btn {
+  background: #16a34a;
+  color: white;
+  border: none;
+}
+
+.buy-btn:hover {
+  background: #22c55e;
+  transform: scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="#">🛒 FoodStore</a>
+
+    <div class="ms-auto">
+      <a class="nav-link d-inline" href="#fruits">Meva</a>
+      <a class="nav-link d-inline" href="#milk">Sut</a>
+      <a class="nav-link d-inline" href="#meat">Go‘sht</a>
+      <a class="nav-link d-inline" href="#drinks">Ichimlik</a>
+
+      <button class="btn btn-light ms-2" onclick="openCart()">
+        🛒 (<span id="cart-count">0</span>)
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>🍏 Oziq-ovqat do‘koni</h1>
+</div>
+
+<!-- SEARCH -->
+<div class="container my-3">
+  <input id="search" class="form-control" placeholder="🔍 Qidirish...">
+</div>
+
+<div class="container">
+
+<h3 id="fruits">🍎 Mevalar</h3>
+<div class="row g-4" id="fruits-list"></div>
+
+<h3 id="milk" class="mt-5">🥛 Sut mahsulotlari</h3>
+<div class="row g-4" id="milk-list"></div>
+
+<h3 id="meat" class="mt-5">🥩 Go‘sht</h3>
+<div class="row g-4" id="meat-list"></div>
+
+<h3 id="drinks" class="mt-5">🥤 Ichimliklar</h3>
+<div class="row g-4" id="drink-list"></div>
+
+</div>
+
+<!-- CART -->
+<div class="modal fade" id="cartModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5>Savat</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="cart-items"></div>
+    </div>
+  </div>
+</div>
+  <div class="container text-center">
+
+    <h5>📍 Lokatsiya</h5>
+    <p>POP, Uzbekistan</p>
+
+    <h5>📞 Aloqa</h5>
+    <p>
+      <a href="tel:+998901234567" style="color:#00ff99; text-decoration:none;">
+        +998 90 123 45 67
+      </a><br>
+      <a href="tel:+998931112233" style="color:#00ff99; text-decoration:none;">
+        +998 93 111 22 33
+      </a>
+    </p>
+
+    <h5>📲 Ijtimoiy tarmoqlar</h5>
+
+    <a href="https://t.me/your_channel" target="_blank" style="color:white; margin:0 10px;">
+      Telegram
+    </a>
+
+    <a href="https://instagram.com/your_page" target="_blank" style="color:white; margin:0 10px;">
+      Instagram
+    </a>
+
+    <hr style="background:white;">
+
+    <p style="font-size:14px;">© 2026 FoodStore Pro</p>
+
+  </div>
+</footer>
+
+<script>
+
+// REAL IMAGES (Unsplash)
+
+const fruits = [
+{ name:"Olma", price:2, img:"https://images.unsplash.com/photo-1567306226416-28f0efdc88ce" },
+{ name:"Banan", price:3, img:"https://dostavo4ka.uz/upload-file/2021/05/05/854/cd479326-a85a-4109-8f8a-05984068a90d.jpg" },
+{ name:"Uzum", price:2, img:"https://stat.uz/img/90c2e93e55271673b13c08a917e842b5.jpg" },
+{ name:"Nok", price:2, img:"https://img.freepik.com/premium-photo/fresh-pears-isolated-white_272787-214.jpg" },
+{ name:"Apelsin", price:2, img:"https://images.unsplash.com/photo-1587735243615-c03f25aaff15" },
+{ name:"Anor", price:3, img:"https://yukber.uz/image/cache/catalog/product/YK0318/pomegranate_PNG8653-700x700.png" },
+{ name:"Qulupnay", price:4, img:"https://images.unsplash.com/photo-1464965911861-746a04b4bca6" },
+{ name:"Qovun", price:3, img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSW3c5JUxXe2uesnaZAdqDkg6f_AmVt_3z4-g&s" },
+{ name:"Tarvuz", price:3, img:"https://images.unsplash.com/photo-1563114773-84221bd62daa" },
+{ name:"Kivi", price:2, img:"https://images.unsplash.com/photo-1585059895524-72359e06133a" }
+];
+
+const milk = [
+{ name:"Sut", price:2, img:"https://www.oldenburger-dairy.com/media/00/6c/e1/1737642194/11067_1l_3_5_410x410_full_cream_milk.png" },
+{ name:"Qatiq", price:2, img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRA9UQcxIwGzBApbm9W1Au5fZBuCbm4MaSXOw&s" },
+{ name:"Yogurt", price:3, img:"https://yastatic.net/avatars/get-grocery-goods/2998515/8b8e69dd-dcff-4730-91c8-1dbd92d45553/500x500-orig" },
+{ name:"Pishloq", price:5, img:"https://healthy-food-near-me.com/wp-content/uploads/2021/03/what-is-cheese-part-one-or-how-to-make-cheese-from-milk.webp" },
+{ name:"Qaymoq", price:4, img:"https://images.uzum.uz/d3busnd2lln30qq3t7d0/original.jpg" }
+];
+
+const meat = [
+{ name:"Mol go‘shti", price:13, img:"https://yukber.uz/image/cache/catalog/tolstiy-700x700.jpg" },
+{ name:"Tovuq", price:7, img:"https://yukber.uz/image/cache/catalog/product/YK0349/YK0349-700x700.jpg" },
+{ name:"Qo‘y go‘shti", price:11, img:"https://yukber.uz/image/cache/catalog/photo_2023-12-11_12-13-54-700x700.jpg" },
+{ name:"Kolbasa", price:6, img:"https://rozmetov.uz/wp-content/uploads/2019/07/fav.jpg" }
+];
+
+const drinks = [
+{ name:"Coca Cola", price:2, img:"https://rimibaltic-res.cloudinary.com/image/upload/b_white,c_limit,dpr_3.0,f_auto,q_auto:low,w_400/d_ecommerce:backend-fallback.png/MAT_1353351_PCE_EE" },
+{ name:"Pepsi", price:2, img:"https://i5.walmartimages.com/seo/Pepsi-Cola-Soda-1-25L-Plastic-Bottle_5875c41f-d04f-4eb6-8262-7dd8fdf6562f.790af37888c1744f8ce346379b558384.jpeg?odnHeight=768&odnWidth=768&odnBg=FFFFFF" },
+{ name:"Fanta", price:2, img:"https://images.uzum.uz/cthuastht56qpot7dns0/t_product_low.jpg" },
+{ name:"Sprite", price:2, img:"https://dostavo4ka.uz/upload-file/2021/05/05/5729/750x750-25d8aeea-6691-4d1f-bf36-1be59dd65459.jpg" }
+];
+
+let cart=[];
+
+// RENDER
+function render(list,id){
+  const c=document.getElementById(id);
+  list.forEach(p=>{
+    c.innerHTML+=`
+      <div class="col-md-3">
+        <div class="product-card text-center p-2">
+          <img src="${p.img}">
+          <h6 class="mt-2">${p.name}</h6>
+          <p>$${p.price}</p>
+          <button class="btn buy-btn" onclick="addToCart('${p.name}',${p.price})">
+            Sotib olish
+          </button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+render(fruits,"fruits-list");
+render(milk,"milk-list");
+render(meat,"meat-list");
+render(drinks,"drink-list");
+
+// CART
+function addToCart(name,price){
+  cart.push({name,price});
+  document.getElementById("cart-count").innerText=cart.length;
+}
+
+function openCart(){
+  const modal=new bootstrap.Modal(document.getElementById("cartModal"));
+  const box=document.getElementById("cart-items");
+
+  box.innerHTML="";
+  let total=0;
+
+  cart.forEach(p=>{
+    total+=p.price;
+    box.innerHTML+=`<div>${p.name} - $${p.price}</div>`;
+  });
+
+  box.innerHTML+=`<hr><b>Jami: $${total}</b>`;
+  modal.show();
+}
+
+// SEARCH
+document.getElementById("search").addEventListener("keyup",function(){
+  let val=this.value.toLowerCase();
+  let items=document.querySelectorAll(".product-card");
+
+  items.forEach(card=>{
+    let text=card.innerText.toLowerCase();
+    card.parentElement.style.display=text.includes(val)?"block":"none";
+  });
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
